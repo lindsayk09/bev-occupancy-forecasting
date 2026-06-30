@@ -112,7 +112,8 @@ coherent in the warped grid.
 
 **Training curves:**
 
-![Training curves](outputs/training_curves.png)
+<img width="1806" height="643" alt="training_curves" src="https://github.com/user-attachments/assets/a9d2f4cb-b2d8-426b-82f1-3519b60be412" />
+
 
 Loss decreases smoothly across training with no sign of instability. IoU rises
 from 0.60 at epoch 1 to a validation plateau around 0.73 after epoch 10, with
