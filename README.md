@@ -124,7 +124,8 @@ the training sequences outright.
 
 **Predictions vs ground truth:**
 
-![Predictions](outputs/predictions.png)
+<img width="2327" height="2120" alt="predictions" src="https://github.com/user-attachments/assets/3059d92d-5f8f-4ad9-9d9f-506f525d7757" />
+
 
 Each row shows three input timesteps, the ground truth at T+1, and the model's
 predicted occupancy probability map. Per-sample IoU ranges from 0.577 to 0.890
