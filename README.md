@@ -201,3 +201,31 @@ python bev_generator.py \
 ---
 
 ## Project structure
+
+bev-occupancy/
+
+├── src/
+
+│   ├── train_evaluate.py    Full pipeline: BEV generation -> training -> evaluation
+
+│   ├── convlstm_model.py    ConvLSTM architecture, dataset, and IoU metric
+
+│   └── bev_generator.py     IPM-based camera -> BEV grid conversion
+
+├── outputs/
+
+│   ├── bev_grids/            Binary .npy occupancy grids (intermediate)
+
+│   ├── bev_ipm_sample.png    IPM visualisation
+
+│   ├── training_curves.png   Loss and IoU curves
+
+│   ├── predictions.png       Predicted vs ground truth
+
+│   ├── model_best.pth        Best model checkpoint (by val IoU)
+
+│   └── results.txt           Final IoU score summary
+
+├── data/                     Waymo camera frames (not tracked in git)
+
+└── requirements.txt
