@@ -229,3 +229,16 @@ bev-occupancy/
 ├── data/                     Waymo camera frames (not tracked in git)
 
 └── requirements.txt
+
+---
+
+## References
+
+- Shi et al., *Convolutional LSTM Network: A Machine Learning Approach for
+  Precipitation Nowcasting*, NeurIPS 2015
+- Zhang et al., *OccFormer: Dual-path Transformer for Vision-based 3D Semantic
+  Occupancy Prediction*, ICCV 2023
+- Wang et al., *OpenOccupancy: A Large Scale Benchmark for Surrounding Semantic
+  Occupancy Perception*, ICCV 2023
+- Sun et al., *Scalability in Perception for Autonomous Driving: Waymo Open
+  Dataset*, CVPR 2020
