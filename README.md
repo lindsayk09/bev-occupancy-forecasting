@@ -49,3 +49,39 @@ how it changes over time.
 A convolutional decoder head takes the ConvLSTM's final hidden state and
 predicts the next occupancy grid as a probability map, thresholded at 0.5 to
 produce a binary prediction.
+
+Waymo camera frames  (PNG sequence, FRONT camera)
+
+|
+
+Inverse Perspective Mapping (OpenCV homography)
+
+|
+
+Binary BEV occupancy grids  [128 x 128]
+
+|
+
+ConvLSTM encoder  (2 layers, 32 hidden channels)
+
+Input: [B, T=3, 1, 128, 128]
+
+|
+
+Final hidden state  [B, 32, 128, 128]
+
+|
+
+Conv decoder head  (3 layers)
+
+|
+
+Predicted occupancy map  [B, 1, 128, 128]  in [0,1]
+
+|
+
+Threshold @ 0.5 -> Binary prediction
+
+|
+
+IoU evaluation vs ground truth
