@@ -85,3 +85,119 @@ Threshold @ 0.5 -> Binary prediction
 |
 
 IoU evaluation vs ground truth
+
+---
+
+## Results
+
+Trained for 20 epochs on 42 sequence samples (34 train / 8 validation) derived
+from 45 camera frames across 3 Waymo driving segments.
+
+| Metric | Value |
+|---|---|
+| Best validation IoU | **0.728** |
+| Final train IoU | 0.791 |
+| Final train loss (BCE) | 0.370 |
+| Final val loss (BCE) | 0.503 |
+| Model parameters | 125,889 |
+| Per-sample IoU range (validation) | 0.577 - 0.890 |
+
+**Camera to BEV conversion (Inverse Perspective Mapping):**
+
+![BEV IPM sample](outputs/bev_ipm_sample.png)
+
+The IPM transform correctly unfolds the road's perspective into a flat top-down
+view. Road curvature, lane markings, and roadside structures remain spatially
+coherent in the warped grid.
+
+**Training curves:**
+
+![Training curves](outputs/training_curves.png)
+
+Loss decreases smoothly across training with no sign of instability. IoU rises
+from 0.60 at epoch 1 to a validation plateau around 0.73 after epoch 10, with
+training IoU continuing to climb to 0.79. The modest gap between train and
+validation IoU is expected given the small dataset (42 samples) and indicates
+the model is learning genuine spatial-temporal structure rather than memorising
+the training sequences outright.
+
+**Predictions vs ground truth:**
+
+![Predictions](outputs/predictions.png)
+
+Each row shows three input timesteps, the ground truth at T+1, and the model's
+predicted occupancy probability map. Per-sample IoU ranges from 0.577 to 0.890
+across the four examples shown. The predicted heatmaps closely track the
+spatial layout of occupied regions in the ground truth, including road
+boundaries and structural edges that persist across frames.
+
+---
+
+## Connection to Semantic 4D Occupancy Forecasting
+
+This project addresses the **temporal prediction** component of 4D occupancy
+forecasting in isolation. The full research direction extends this work in two
+ways:
+
+1. **Semantic labels.** Instead of binary occupancy, predict per-voxel class
+   labels (road, vehicle, pedestrian, vegetation). This is where the companion
+   DINOv2 project becomes relevant: its patch-level semantic features are
+   exactly the kind of signal that would be fused into the BEV representation
+   to move from "is this space occupied" to "what is occupying this space."
+
+2. **Full 3D voxel representation.** Extend the 2D BEV grid used here to true
+   3D voxels, using depth estimation or LiDAR fusion, matching the output
+   space of models such as OccFormer and UniOcc.
+
+Together, the two projects in this portfolio cover both pillars of
+weakly-supervised 4D occupancy forecasting: **semantic feature extraction**
+(DINOv2 project) and **temporal occupancy prediction** (this project).
+
+---
+
+## Dataset
+
+**Waymo Open Dataset v2.0.1** — the same 3 validation segments used in the
+companion DINOv2 project:
+
+| Segment ID | Scene type |
+|---|---|
+| `10203656353524179475_7625_000_7645_000` | Highway / construction zone |
+| `1024360143612057520_3580_000_3600_000` | Urban intersection / pedestrians |
+| `10247954040621004675_2180_000_2200_000` | Residential street / vehicles |
+
+Camera: FRONT (camera ID 1). 15 frames extracted per segment, 45 total.
+
+---
+
+## Setup
+
+```bash
+git clone https://github.com/lindsayk09/bev-occupancy-forecasting.git
+cd bev-occupancy-forecasting
+pip install -r requirements.txt
+```
+
+**Run the full pipeline** (BEV generation, training, and evaluation in one step):
+
+```bash
+cd src
+python train_evaluate.py \
+    --frames_dir ./data/frames \
+    --out_dir    ../outputs \
+    --epochs     20 \
+    --grid_size  128
+```
+
+**Generate BEV grids only**, to inspect the IPM output without training:
+
+```bash
+python bev_generator.py \
+    --frames_dir ./data/frames \
+    --out_dir    ../outputs/bev_grids \
+    --visualise
+```
+
+---
+
+## Project structure
