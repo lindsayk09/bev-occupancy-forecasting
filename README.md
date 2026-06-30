@@ -104,7 +104,8 @@ from 45 camera frames across 3 Waymo driving segments.
 
 **Camera to BEV conversion (Inverse Perspective Mapping):**
 
-![BEV IPM sample](outputs/bev_ipm_sample.png)
+<img width="1186" height="1582" alt="bev_ipm_sample" src="https://github.com/user-attachments/assets/c2304a44-5d5b-4549-af50-2a52de68ced8" />
+
 
 The IPM transform correctly unfolds the road's perspective into a flat top-down
 view. Road curvature, lane markings, and roadside structures remain spatially
